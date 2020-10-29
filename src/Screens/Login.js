@@ -1,5 +1,12 @@
-import React, {useState} from 'react';
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {
+  Button,
+  Keyboard,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import AppButton from '../Components/AppButton';
 import AppTextInput from '../Components/AppTextInput';
 import Screen from '../Components/Screen';
@@ -11,6 +18,7 @@ const Login = ({navigation}) => {
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const loginHandler = () => {
+    Keyboard.dismiss();
     dispatch(login(user));
     setUser(null);
     navigation.navigate('Home');
@@ -33,7 +41,6 @@ const Login = ({navigation}) => {
         onPress={loginHandler}
         style={styles.button}
         title="Login"
-        color="#4CDA64"
       />
     </Screen>
   );

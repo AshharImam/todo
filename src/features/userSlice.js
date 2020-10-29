@@ -1,4 +1,13 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createSlice} from '@reduxjs/toolkit';
+
+const loginAsyncStorage = async (user) => {
+  try {
+    await AsyncStorage.setItem('user', user);
+  } catch (e) {
+    // saving error
+  }
+};
 
 export const userSlice = createSlice({
   name: 'user',
@@ -7,9 +16,16 @@ export const userSlice = createSlice({
   },
   reducers: {
     login: (state, action) => {
+      loginAsyncStorage(action.payload)
+        .then()
+        .catch((e) => console.log(e));
       state.user = action.payload;
     },
     logout: (state) => {
+      loginAsyncStorage(null)
+        .then()
+        .catch((e) => console.log(e));
+
       state.user = null;
     },
   },

@@ -1,8 +1,10 @@
 import React from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 
-const AppTextInput = ({style, ...args}) => {
-  return <TextInput {...args} style={[styles.inputBox, style]} />;
+const AppTextInput = ({style, onFocus, ...args}) => {
+  return (
+    <TextInput {...args} style={[styles.inputBox, style]} onFocus={onFocus} />
+  );
 };
 
 export default AppTextInput;
