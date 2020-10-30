@@ -7,6 +7,7 @@ const TodoItem = ({
   color,
   renderRightActions,
   renderLeftActions,
+  completed,
 }) => {
   return (
     <Swipeable
@@ -25,8 +26,21 @@ const TodoItem = ({
             }}
           />
           <View style={styles.textContainer}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.subTitle}>Due {due}</Text>
+            <Text
+              style={[
+                styles.title,
+                completed && {
+                  color: '#a9a9a9',
+                  textDecorationLine: 'line-through',
+                  textDecorationStyle: 'solid',
+                  textDecorationColor: '#a9a9a9',
+                },
+              ]}>
+              {title}
+            </Text>
+            <Text style={[styles.subTitle, completed && {color: '#a9a9a9'}]}>
+              Due {due}
+            </Text>
           </View>
         </View>
       </TouchableHighlight>
@@ -50,9 +64,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    // textDecorationLine: 'line-through',
-    // textDecorationStyle: 'solid',
-    // textDecorationColor: '#eee',
   },
   subTitle: {
     fontSize: 13,

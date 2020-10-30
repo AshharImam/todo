@@ -1,28 +1,58 @@
-import React, {useRef, useState} from 'react';
-import {
-  Button,
-  Keyboard,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Keyboard, StyleSheet, Text, View} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import AppButton from '../Components/AppButton';
 import AppTextInput from '../Components/AppTextInput';
 import Screen from '../Components/Screen';
-import Icon from 'react-native-vector-icons/FontAwesome';
+
 import {login} from '../features/userSlice';
 import {useDispatch} from 'react-redux';
+import {loadData} from '../features/todoSlice';
 
 const Login = ({navigation}) => {
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
+
+  const setAsyncUser = async (user) => {
+    try {
+      await AsyncStorage.setItem('user', user);
+    } catch (error) {}
+  };
+
+  const getUser = async () => {
+    try {
+      const value = await AsyncStorage.getItem('user');
+      if (value !== 'null' && value !== null) {
+        console.log(value);
+        dispatch(login(value));
+        navigation.navigate('Home');
+      }
+    } catch (error) {}
+  };
+
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('todos');
+      dispatch(loadData(jsonValue != null ? JSON.parse(jsonValue) : []));
+    } catch (e) {
+      // error reading value
+    }
+  };
+  useEffect(() => {
+    getUser();
+    getData();
+  }, []);
+
   const loginHandler = () => {
     Keyboard.dismiss();
     dispatch(login(user));
+    setAsyncUser(user);
     setUser(null);
     navigation.navigate('Home');
   };
+
   return (
     <Screen style={styles.container}>
       <View style={styles.logoContainer}>
