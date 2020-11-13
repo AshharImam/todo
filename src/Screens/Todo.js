@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Alert, FlatList, StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import DeleteAction from '../Components/DeleteAction';
@@ -6,14 +6,20 @@ import Header from '../Components/Header';
 import MarkCompleteAction from '../Components/MarkCompleteAction';
 import Screen from '../Components/Screen';
 import TodoItem from '../Components/TodoItem';
-import {selectTodo, deleteTodo} from '../features/todoSlice';
+import {selectTodo, deleteTodo, completeTodo} from '../features/todoSlice';
 
 const Todo = () => {
   const todos = useSelector(selectTodo);
   const dipatch = useDispatch();
+
   const handleDelete = (id) => {
     dipatch(deleteTodo(id));
   };
+
+  const handleComplete = (id) => {
+    dipatch(completeTodo(id));
+  };
+
   return (
     <>
       <Header title="Todo" />
@@ -29,15 +35,21 @@ const Todo = () => {
               title={item.title}
               due={item.due}
               color={item.color}
+              completed={item.completed}
               renderRightActions={() => (
                 <DeleteAction
                   onPress={() => {
-                    console.log('item DELETE', item);
-                    handleDelete(item.id);
+                    Alert.alert('Delete', 'Do you really want to delete?', [
+                      'Cancel',
+                    ]);
+                    // console.log('item DELETE', item);
+                    // handleDelete(item.id);
                   }}
                 />
               )}
-              renderLeftActions={MarkCompleteAction}
+              renderLeftActions={() => (
+                <MarkCompleteAction onPress={() => handleComplete(item.id)} />
+              )}
             />
           )}
         />

@@ -12,9 +12,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
-
 import Login from './src/Screens/Login';
-import Home from './src/Screens/Home';
 import Todo from './src/Screens/Todo';
 import Add from './src/Screens/Add';
 import Account from './src/Screens/Account';

@@ -7,8 +7,8 @@ import AppTag from '../Components/AppTag';
 import Header from '../Components/Header';
 import Screen from '../Components/Screen';
 import AppTimeBox from '../Components/AppTimeBox';
-import {useDispatch} from 'react-redux';
-import {addTodo} from '../features/todoSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {addTodo, selectTodo} from '../features/todoSlice';
 
 const Add = () => {
   const [selected, setSelected] = useState('dodgerblue');
@@ -18,6 +18,7 @@ const Add = () => {
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
+  const todos = useSelector(selectTodo);
 
   const multiLineTextHandle = (text) => {
     // console.log(text);
@@ -59,8 +60,11 @@ const Add = () => {
   };
 
   const handleSubmit = () => {
+    const id = todos.length === 0 ? 0 : todos[0].id + 1;
+
     dispatch(
       addTodo({
+        id: id,
         title: text,
         due: formatDate(date, time),
         color: selected,
