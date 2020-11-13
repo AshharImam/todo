@@ -40,10 +40,15 @@ const Todo = () => {
                 <DeleteAction
                   onPress={() => {
                     Alert.alert('Delete', 'Do you really want to delete?', [
-                      'Cancel',
+                      {
+                        text: 'Delete',
+                        onPress: () => handleDelete(),
+                      },
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                      },
                     ]);
-                    // console.log('item DELETE', item);
-                    // handleDelete(item.id);
                   }}
                 />
               )}
